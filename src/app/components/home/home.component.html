@@ -1,0 +1,49 @@
+<div class="home-container">
+  <div class="left-section">
+    <div class="button-header">
+      <button (click)="toggleSelectionMode()" class="delete-button">
+        {{ selectionMode | selectionDeleteMode }}
+      </button>
+    </div>
+    <h1>Termékek</h1>
+
+    <div class="product-list">
+      <app-product-card
+        *ngFor="let product of products"
+        [product]="product"
+        [isClicked]="product.isClicked"
+        [selectionMode]="selectionMode"
+        (addToCart)="addToCart($event)"
+        (deleteProduct)="deleteSingleProduct($event)"
+      >
+      </app-product-card>
+    </div>
+  </div>
+
+  <mat-card class="right-section">
+    <div>
+      <h2>Kosár</h2>
+      <div *ngFor="let item of cart" class="cart-item">
+        <div class="cart-infos">
+          <span>{{ item.name }}</span>
+          <span>Mennyiség: {{ item.quantity }}</span>
+          <span>Összesen: {{ item.totalPrice | priceFormat: 'Ft': CurrencyPosition.RIGHT }}</span>
+        </div>
+        <div class="cart-controls">
+          <button mat-mini-fab color="warn" (click)="updateQuantity(item, -10)">-10</button>
+          <button mat-mini-fab color="warn" (click)="updateQuantity(item, -1)">-1</button>
+          <button mat-mini-fab color="primary" (click)="updateQuantity(item, 1)">+1</button>
+          <button mat-mini-fab color="primary" (click)="updateQuantity(item, 10)">+10</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-summary">
+      <h3>Összeg: ${{ totalPrice }}</h3>
+      <div class="cart-actions">
+        <button mat-raised-button color="accent" (click)="pay()">Fizetett</button>
+        <button mat-raised-button color="accent" (click)="payAndCloseDay()">Nap lezárása</button>
+      </div>
+    </div>
+  </mat-card>
+</div>

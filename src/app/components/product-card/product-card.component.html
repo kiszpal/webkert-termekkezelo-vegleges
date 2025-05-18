@@ -1,0 +1,22 @@
+<mat-card class="product-card"
+          (click)="selectionMode ? handleDelete() : handleClick()"
+          [class.clicked]="isClicked"
+          [appHighlight]="'#ddd'"
+          [appDisableIfInCart]="isClicked">
+
+  <ng-container *ngIf="selectionMode; else normalContent">
+    <button (click)="handleDelete(); $event.stopPropagation()" class="delete-button">
+      ✖
+    </button>
+    <h2>{{ product?.name }}</h2>
+  </ng-container>
+
+  <ng-template #normalContent>
+    <mat-card-content>
+      <h2>{{ product?.name }}</h2>
+      <p>Quantity: {{ product?.quantity ?? 0 }}</p>
+      <p>Price: {{ product?.price ?? 0 | priceFormat:currency:currencyPosition }}</p>
+    </mat-card-content>
+  </ng-template>
+
+</mat-card>
